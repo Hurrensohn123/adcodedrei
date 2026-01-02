@@ -1594,7 +1594,6 @@ function initPopups() {
 
       const number = btnClass.split("-")[1];
 
-      // findet Popup – egal ob wrapper-1 ODER wrapper_content-1
       let popup =
         document.querySelector(".popup-wrapper-" + number) ||
         document.querySelector(".popup-wrapper_content-" + number);
@@ -1610,6 +1609,22 @@ function initPopups() {
       if (bg) gsap.set(bg, { autoAlpha: 1, pointerEvents: "auto" });
 
       gsap.set(popup, { autoAlpha: 0, display: "flex" });
+
+      // SAVE SCROLL POSITION
+      window.__lockScrollY = window.scrollY;
+
+      // BODY lock (iOS-safe)
+      document.body.style.position = "fixed";
+      document.body.style.top = `-${window.__lockScrollY}px`;
+      document.body.style.left = "0";
+      document.body.style.right = "0";
+      document.body.style.width = "100%";
+
+      // Lenis pausieren
+      if (window.lenis?.stop) {
+        try { lenis.stop(); } catch(e){}
+      }
+
       popup.classList.add("popup-open");
 
       gsap.to(popup, {
@@ -1617,6 +1632,11 @@ function initPopups() {
         duration: 0.35,
         ease: "power2.out"
       });
+
+      // Sehr wichtig — ScrollTrigger neu messen (für den Kreis!)
+      if (window.ScrollTrigger) {
+        ScrollTrigger.refresh();
+      }
 
       return;
     }
@@ -1642,18 +1662,17 @@ function initPopups() {
 
   document.addEventListener("click", window.__popupDelegationHandler);
 
-  // -----------------------------
-  // ALWAYS resolve the REAL WRAPPER
-  // -----------------------------
+
+  // Resolve wrapper
   function getPopupWrapper(el) {
-    // bevorzugt echte wrapper-1/2/3/4
     let popup = el.closest("[class^='popup-wrapper-']");
     if (!popup) popup = el.closest("[class*='popup-wrapper']");
     return popup;
   }
 
+
   // -----------------------------
-  // CLOSE LOGIC
+  // CLOSE
   // -----------------------------
   function closePopup(popup) {
     if (!popup) return;
@@ -1671,6 +1690,21 @@ function initPopups() {
       onComplete: () => {
         popup.classList.remove("popup-open");
         popup.style.display = "none";
+
+        // BODY unlock
+        document.body.style.position = "";
+        document.body.style.top = "";
+        document.body.style.left = "";
+        document.body.style.right = "";
+        document.body.style.width = "";
+
+        // zurück zur alten Position
+        window.scrollTo(0, window.__lockScrollY || 0);
+
+        // Lenis weiter
+        if (window.lenis?.start) {
+          try { lenis.start(); } catch(e){}
+        }
       }
     });
 
