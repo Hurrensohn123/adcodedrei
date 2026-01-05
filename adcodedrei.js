@@ -397,10 +397,16 @@ function toggleMenu() {
 
     if (!menuOpen) {
       openTl.play(0);
+       setTimeout(() => {
+      if (window.ScrollTrigger) ScrollTrigger.refresh(true);
+    }, 40);
       gsap.set(["html", "body"], { overflow: "hidden" });
       document.body.classList.add("menu-open");
     } else {
       closeTl.play(0);
+       setTimeout(() => {
+      if (window.ScrollTrigger) ScrollTrigger.refresh(true);
+    }, 40);
       gsap.set(["html", "body"], { overflow: "auto" });
       document.body.classList.remove("menu-open");
     }
