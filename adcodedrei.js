@@ -401,7 +401,8 @@ function initBurgerMenu() {
       document.body.classList.add("menu-open");
     } else {
       closeTl.play(0);
-      gsap.set(["html", "body"], { overflow: "auto" });
+      gsap.set(["html", "body"], { overflow: "" });
+      lenis?.start?.();
       document.body.classList.remove("menu-open");
     }
 
