@@ -1678,6 +1678,9 @@ function initPopups() {
         // zurück zur alten Position
         window.scrollTo(0, window.__lockScrollY || 0);
 
+        setTimeout(() => {
+  if (window.ScrollTrigger) ScrollTrigger.refresh(true);
+}, 30);
         // Lenis weiter
         if (window.lenis?.start) {
           try { lenis.start(); } catch(e){}
