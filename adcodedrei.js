@@ -1605,11 +1605,16 @@ function initPopups() {
         ease: "power2.out"
       });
 
-      // Sehr wichtig — ScrollTrigger neu messen (für den Kreis!)
-      if (window.ScrollTrigger) {
-        ScrollTrigger.refresh();
-      }
-
+     gsap.to(popup, {
+  autoAlpha: 1,
+  duration: 0.35,
+  ease: "power2.out",
+  onComplete: () => {
+    setTimeout(() => {
+      if (window.ScrollTrigger) ScrollTrigger.refresh(true);
+    }, 30);
+  }
+});
       return;
     }
 
