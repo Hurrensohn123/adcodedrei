@@ -392,32 +392,21 @@ function initBurgerMenu() {
     )
     .set(menu, { pointerEvents: "none" });
 
-  function toggleMenu() {
-  if (openTl.isActive() || closeTl.isActive()) return;
+function toggleMenu() {
+    if (openTl.isActive() || closeTl.isActive()) return;
 
-  if (!menuOpen) {
-    openTl.play(0);
+    if (!menuOpen) {
+      openTl.play(0);
+      gsap.set(["html", "body"], { overflow: "hidden" });
+      document.body.classList.add("menu-open");
+    } else {
+      closeTl.play(0);
+      gsap.set(["html", "body"], { overflow: "auto" });
+      document.body.classList.remove("menu-open");
+    }
 
-    gsap.set(["html", "body"], { overflow: "hidden" });
-    lenis?.stop?.();
-
-    document.body.classList.add("menu-open");
-  } else {
-  closeTl.play(0);
-
-  gsap.set(["html", "body"], { overflow: "" });
-
-  lenis?.start?.();
-
-  requestAnimationFrame(() => {
-    ScrollTrigger.refresh(true);
-  });
-
-  document.body.classList.remove("menu-open");
-}
-
-  menuOpen = !menuOpen;
-}
+    menuOpen = !menuOpen;
+  }
 
   burger.addEventListener("click", toggleMenu);
   lineBlock.addEventListener("click", toggleMenu);
