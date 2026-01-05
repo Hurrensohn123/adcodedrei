@@ -1605,12 +1605,6 @@ function initPopups() {
 
       popup.classList.add("popup-open");
 
-      gsap.to(popup, {
-        autoAlpha: 1,
-        duration: 0.35,
-        ease: "power2.out"
-      });
-
      gsap.to(popup, {
   autoAlpha: 1,
   duration: 0.35,
