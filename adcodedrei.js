@@ -403,13 +403,18 @@ function initBurgerMenu() {
 
     document.body.classList.add("menu-open");
   } else {
-    closeTl.play(0);
+  closeTl.play(0);
 
-    gsap.set(["html", "body"], { overflow: "" });
-    lenis?.start?.();
+  gsap.set(["html", "body"], { overflow: "" });
 
-    document.body.classList.remove("menu-open");
-  }
+  lenis?.start?.();
+
+  requestAnimationFrame(() => {
+    ScrollTrigger.refresh(true);
+  });
+
+  document.body.classList.remove("menu-open");
+}
 
   menuOpen = !menuOpen;
 }
