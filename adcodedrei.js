@@ -393,38 +393,46 @@ function initBurgerMenu() {
     .set(menu, { pointerEvents: "none" });
 
 function toggleMenu() {
-    if (openTl.isActive() || closeTl.isActive()) return;
+  if (openTl.isActive() || closeTl.isActive()) return;
 
-    if (!menuOpen) {
-      openTl.play(0);
-       openTl.eventCallback("onComplete", () => {
-  if (window.ScrollTrigger) ScrollTrigger.refresh();
-});
-      gsap.set(["html", "body"], { overflow: "hidden" });
-      document.body.classList.add("menu-open");
-    } else {
-      closeTl.play(0);
-       openTl.eventCallback("onComplete", () => {
-  if (window.ScrollTrigger) ScrollTrigger.refresh();
-});
-      gsap.set(["html", "body"], { overflow: "auto" });
-      document.body.classList.remove("menu-open");
-    }
+  if (!menuOpen) {
+    // MENÜ ÖFFNEN
+    openTl.play(0);
 
-    menuOpen = !menuOpen;
+    // Refresh erst NACH der Animation
+    openTl.eventCallback("onComplete", () => {
+      if (window.ScrollTrigger) ScrollTrigger.refresh();
+    });
+
+    gsap.set(["html", "body"], { overflow: "hidden" });
+    document.body.classList.add("menu-open");
+
+  } else {
+    // MENÜ SCHLIESSEN
+    closeTl.play(0);
+
+    // Refresh erst NACH der Animation
+    closeTl.eventCallback("onComplete", () => {
+      if (window.ScrollTrigger) ScrollTrigger.refresh();
+    });
+
+    gsap.set(["html", "body"], { clearProps: "overflow" });
+    document.body.classList.remove("menu-open");
   }
 
-  burger.addEventListener("click", toggleMenu);
-  lineBlock.addEventListener("click", toggleMenu);
-
-  navLinks.forEach((link) => {
-    link.addEventListener("click", () => {
-      if (menuOpen) toggleMenu();
-    });
-  });
-
-  console.log("Burger-Menü initialisiert");
+  menuOpen = !menuOpen;
 }
+
+burger.addEventListener("click", toggleMenu);
+lineBlock.addEventListener("click", toggleMenu);
+
+navLinks.forEach((link) => {
+  link.addEventListener("click", () => {
+    if (menuOpen) toggleMenu();
+  });
+});
+
+console.log("Burger-Menü initialisiert");
 
 function initProjectsSwiper() {
   const titles = Array.from(document.querySelectorAll(".project-title"));
