@@ -393,46 +393,31 @@ function initBurgerMenu() {
     .set(menu, { pointerEvents: "none" });
 
 function toggleMenu() {
-  if (openTl.isActive() || closeTl.isActive()) return;
+    if (openTl.isActive() || closeTl.isActive()) return;
 
-  if (!menuOpen) {
-    // MENÜ ÖFFNEN
-    openTl.play(0);
+    if (!menuOpen) {
+      openTl.play(0);
+      gsap.set(["html", "body"], { overflow: "hidden" });
+      document.body.classList.add("menu-open");
+    } else {
+      closeTl.play(0);
+      gsap.set(["html", "body"], { overflow: "auto" });
+      document.body.classList.remove("menu-open");
+    }
 
-    // Refresh erst NACH der Animation
-    openTl.eventCallback("onComplete", () => {
-      if (window.ScrollTrigger) ScrollTrigger.refresh();
-    });
-
-    gsap.set(["html", "body"], { overflow: "hidden" });
-    document.body.classList.add("menu-open");
-
-  } else {
-    // MENÜ SCHLIESSEN
-    closeTl.play(0);
-
-    // Refresh erst NACH der Animation
-    closeTl.eventCallback("onComplete", () => {
-      if (window.ScrollTrigger) ScrollTrigger.refresh();
-    });
-
-    gsap.set(["html", "body"], { clearProps: "overflow" });
-    document.body.classList.remove("menu-open");
+    menuOpen = !menuOpen;
   }
 
-  menuOpen = !menuOpen;
-}
+  burger.addEventListener("click", toggleMenu);
+  lineBlock.addEventListener("click", toggleMenu);
 
-burger.addEventListener("click", toggleMenu);
-lineBlock.addEventListener("click", toggleMenu);
-
-navLinks.forEach((link) => {
-  link.addEventListener("click", () => {
-    if (menuOpen) toggleMenu();
+  navLinks.forEach((link) => {
+    link.addEventListener("click", () => {
+      if (menuOpen) toggleMenu();
+    });
   });
-});
 
-console.log("Burger-Menü initialisiert");
+  console.log("Burger-Menü initialisiert");
 }
 
 function initProjectsSwiper() {
