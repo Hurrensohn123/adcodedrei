@@ -1448,6 +1448,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initBarbaAndTransitions();
 
   console.log("Setup abgeschlossen");
+});
 
 function initProfileAnimation() {
   const trigger = document.querySelector(".lottie-inner");
