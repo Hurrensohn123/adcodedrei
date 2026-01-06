@@ -433,6 +433,7 @@ navLinks.forEach((link) => {
 });
 
 console.log("Burger-Menü initialisiert");
+}
 
 function initProjectsSwiper() {
   const titles = Array.from(document.querySelectorAll(".project-title"));
